@@ -81,9 +81,27 @@ imageSelectButton.addEventListener("click", () => {
   const input = document.createElement("input");
   input.type = "file";
 
+
+  
   input.addEventListener("change", (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const options = {
+        method: 'POST',
+        body: formData 
+    };
+    fetch( 'http://10.122.92.59:5002/fit', options )
+        .then( response => {console.log(response)} )
+        .catch(error => {console.error(error)})
+        .then( response => {
+            // Do something with response.
+        } );
+
+
     reader.onload = (event) => {
       selectedImage.src = event.target.result;
       selectedImage.style.display = "block";
