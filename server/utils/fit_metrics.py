@@ -126,8 +126,15 @@ def isBright(color, tolerance=80):
     h,s,v = bgr_to_hsv(color)
     return (v >= tolerance)
 
-def getAesthetic(colors):
-    
+def getAesthetic(colors, tolerance=0.5):
+    aesthetics = [0, 0] #vibrant or gloomy
+    for c in colors:
+        if isVibrant(c): aesthetics[0] += 1
+        elif isGloomy(c): aesthetics[1] += 1
+    aesthetics *= 1/len(colors)
+    if aesthetics[0] > tolerance: return "vibrant"
+    elif aesthetics[1] > tolerance: return "gloomy"
+    else: return "neutral"
 
 def getWeather(city_name):
     complete_url = weather_base_url + "appid=" + api_key + "&q=" + city_name
