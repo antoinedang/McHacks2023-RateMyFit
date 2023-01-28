@@ -91,17 +91,43 @@ def complement(b, g, r):
 def areCompatible(c1, c2):
     return not colorCompare(complement(c1[0], c1[1], c1[2]), c2, 40)
 
-def isGloomy(colors):
-    pass
+def bgr_to_hsv(b, g, r):
+    r, g, b = r/255.0, g/255.0, b/255.0
+    mx = max(r, g, b)
+    mn = min(r, g, b)
+    df = mx-mn
+    if mx == mn:
+        h = 0
+    elif mx == r:
+        h = (60 * ((g-b)/df) + 360) % 360
+    elif mx == g:
+        h = (60 * ((b-r)/df) + 120) % 360
+    elif mx == b:
+        h = (60 * ((r-g)/df) + 240) % 360
+    if mx == 0:
+        s = 0
+    else:
+        s = (df/mx)*100
+    v = mx*100
+    return h, s, v
 
-def isNeutral(colors):
-    pass
+def isGloomy(color, tolerance=65):
+    h,s,v = bgr_to_hsv(color)
+    return (v < tolerance)
 
-def isBright(colors):
-    pass
+def isNeutral(color, tolerance=75):
+    h,s,v = bgr_to_hsv(color)
+    return (s < tolerance)
+
+def isVibrant(color):
+    return isBright(color) and (not isNeutral(color))
+
+def isBright(color, tolerance=80):
+    h,s,v = bgr_to_hsv(color)
+    return (v >= tolerance)
 
 def getAesthetic(colors):
-    pass
+    
 
 def getWeather(city_name):
     complete_url = weather_base_url + "appid=" + api_key + "&q=" + city_name
