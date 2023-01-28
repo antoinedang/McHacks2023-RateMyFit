@@ -5,6 +5,11 @@ import numpy as np
 from colormath.color_objects import sRGBColor, LabColor
 from colormath.color_conversions import convert_color
 from colormath.color_diff import delta_e_cie2000
+import requests, json
+ 
+# weather api key
+api_key = "88cd16a2bf4b36c85acaac28009e7dbf"
+weather_base_url = "http://api.openweathermap.org/data/2.5/weather?"
 
 BOX_COLOR = (255, 0, 0) # Red
 TEXT_COLOR = (255, 255, 255) # White
@@ -97,6 +102,20 @@ def isBright(colors):
 
 def getAesthetic(colors):
     pass
+
+def getWeather(city_name):
+    complete_url = weather_base_url + "appid=" + api_key + "&q=" + city_name
+    response = requests.get(complete_url)
+    x = response.json()
+    if x["cod"] != "404": #city is found
+        y = x["main"]
+        current_temperature = y["temp"] #in kelvin
+        current_pressure = y["pressure"] #in hPa
+        current_humidity = y["humidity"] #in percentage
+        z = x["weather"]
+        weather_description = z[0]["description"]
+    else:
+        print(" City Not Found ")
 
 weatherIncompatibility = {
     "warm":[],
