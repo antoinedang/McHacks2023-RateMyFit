@@ -22,10 +22,10 @@ title1.innerHTML = ""
 let index1 = 0;
 
 function type1(){
-    title1.innerHTML += text[index1];
+    title1.innerHTML += text1[index1];
     index1++;
     if (index1 < text1.length) {
-    setTimeout(type1, 150);
+    setTimeout(type1, 100);
     }
 
 }
