@@ -1550,13 +1550,13 @@ let settings = {
       }
     },
     "color": {
-      "value": "#0d6efd"
+      "value": "#000000"
     },
     "shape": {
       "type": "circle",
       "stroke": {
         "width": 0,
-        "color": "#0d6efd"
+        "color": "#000000"
       },
       "polygon": {
         "nb_sides": 5
@@ -1590,7 +1590,7 @@ let settings = {
     "line_linked": {
       "enable": true,
       "distance": 150,
-      "color": "#0d6efd",
+      "color": "#000000",
       "opacity": 0.4,
       "width": 1
     },
@@ -1624,20 +1624,20 @@ let settings = {
     },
     "modes": {
       "grab": {
-        "distance": 400,
+        "distance": 100,
         "line_linked": {
           "opacity": 1
         }
       },
       "bubble": {
-        "distance": 400,
+        "distance": 100,
         "size": 40,
         "duration": 2,
         "opacity": 8,
         "speed": 3
       },
       "repulse": {
-        "distance": 200,
+        "distance": 100,
         "duration": 0.4
       },
       "push": {

@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, current_app
 from flask.views import MethodView
 import json
 import os
-import utils.fit_rater
+from utils import fit_rater
 
 fit_api = Blueprint('fit_api', __name__)
 

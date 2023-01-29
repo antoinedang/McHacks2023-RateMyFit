@@ -10,7 +10,7 @@ function type() {
     title.innerHTML += text[index];
     index++;
     if (index < text.length) {
-    setTimeout(type, 150);
+    setTimeout(type, 50);
     } else {
         type1()  }
 }
@@ -96,7 +96,7 @@ imageSelectButton.addEventListener("click", () => {
         method: 'POST',
         body: formData 
     };
-    fetch( 'http://10.122.151.201:5002/fit', options )
+    fetch( 'http://192.168.26.19:5002/fit', options )
         .then( function(response) { return response.json()} )
         .catch(error => {console.error(error)})
         .then( function(data) {
@@ -127,3 +127,16 @@ function display_fit(x) {
     setTimeout(display_fit, 150, x);
     }
 }
+
+const submit = document.getElementById("submitButton");
+const msgLabel = document.getElementById("message");
+const emailLabel = document.getElementById("email");
+const nameLabel = document.getElementById("name");
+const phoneLabel = document.getElementById("phone");
+
+function clearText() {
+    console.log('here');
+    phoneLabel.value = "";
+}
+
+submit.addEventListener("click", clearText)
