@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, current_app
 from flask.views import MethodView
-
+import fit_rater
 
 import os
 
@@ -14,6 +14,7 @@ class FitAPI(MethodView):
     
     def post(self):
         image = request.files['image']
+        print(type(image))
         current_directory = os.getcwd()
         image.save(os.path.join(current_directory,current_app.config['UPLOAD_FOLDER'], image.filename))
 

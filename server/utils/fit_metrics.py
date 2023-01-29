@@ -6,6 +6,7 @@ from colormath.color_objects import sRGBColor, LabColor
 from colormath.color_conversions import convert_color
 from colormath.color_diff import delta_e_cie2000
 import requests, json
+from sklearn.cluster import KMeans
  
 # weather api key
 api_key = "88cd16a2bf4b36c85acaac28009e7dbf"
@@ -55,7 +56,17 @@ def cropToBbox(img, bbox):
     return crop_img
 
 def get_colors(img):
-    pass
+    flat_img = np.reshape(img,(-1,3))
+    kmeans = KMeans(n_clusters=5,random_state=0)
+    kmeans.fit(flat_img)
+    dominant_colors = np.array(kmeans.cluster_centers_,dtype='uint')
+    percentages = (np.unique(kmeans.labels_,return_counts=True)[1])/flat_img.shape[0]
+    p_and_c = zip(percentages,dominant_colors)
+    colors = []
+    for p,c in p_and_c:
+        if p > 0.1:
+            colors.append(c)
+    return colors
 
 def get_complexity(img):
     edges = cv2.Canny(img,50,150,apertureSize = 3)
@@ -147,15 +158,18 @@ def getWeather(city_name):
         current_humidity = y["humidity"] #in percentage
         z = x["weather"]
         weather_description = z[0]["description"]
+        return current_temperature-273.15, weather_description
     else:
         print(" City Not Found ")
+        return None
 
 weatherIncompatibility = {
-    "warm":[],
-    "cold":[]
+    "hot":["Long Sleeve Shirt", "Long Sleeve Outwear", "Pants", "Long Sleeve Dress"],
+    "warm":["Long Sleeve Outwear", "Long Sleeve Dress"],
+    "cold":["Short Sleeve Shirt", "Sling", "Shorts", "Skirt", "Short Sleeved Dress", "Vest Dress", "Sling Dress"],
+    "supercold":["Short Sleeve Shirt", "Short Sleeve Outwear", "Vest", "Sling", "Shorts", "Skirt", "Short Sleeved Dress", "Vest Dress", "Sling Dress"]
 }
 
-strongColors = [] #in RGB
 # Color check: color compatibility
 # Weather check:
 # Overall synergy:
@@ -166,4 +180,7 @@ strongColors = [] #in RGB
 # aesthetic (gloomy, bland, bright)
 
 pwd = os.path.realpath(os.path.dirname(__file__))
-testimg = cv2.imread(pwd + "/test_imgs/complex_shirt.jpg")
+testimg = cv2.imread(pwd + "/test_imgs/multicolor.jpg")
+cv2.imshow("og", testimg)
+cv2.waitKey(0)
+get_colors(testimg)
