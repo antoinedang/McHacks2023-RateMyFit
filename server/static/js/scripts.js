@@ -100,7 +100,7 @@ imageSelectButton.addEventListener("click", () => {
         body: formData,
         mode: 'no-cors'
     };
-    fetch( 'http://10.0.0.138:5002/fit', options )
+    fetch( 'http://10.122.151.201:5002/fit', options )
         .then( function(response) { return response.json() } )
         .catch(error => {console.error(error)})
         .then( function(data) {
