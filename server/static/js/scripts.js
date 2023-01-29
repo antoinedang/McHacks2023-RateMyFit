@@ -78,6 +78,7 @@ function type1(){
 
 const imageSelectButton = document.getElementById("image-select-button");
 const selectedImage = document.getElementById("selected-image");
+const cityInput = document.getElementById("cityInput");
 
 imageSelectButton.addEventListener("click", () => {
   const input = document.createElement("input");
@@ -91,23 +92,26 @@ imageSelectButton.addEventListener("click", () => {
 
     const formData = new FormData();
     formData.append("image", file);
+    console.log(cityInput.value)
+    formData.append("message", cityInput.value);
 
     const options = {
         method: 'POST',
-        body: formData 
+        body: formData,
+        mode: 'no-cors'
     };
-    fetch( 'http://192.168.26.19:5002/fit', options )
-        .then( function(response) { return response.json()} )
+    fetch( 'http://10.0.0.138:5002/fit', options )
+        .then( function(response) { return response.json() } )
         .catch(error => {console.error(error)})
         .then( function(data) {
-            console.log(data);
-            var result = data.message;
-            display_fit(result)
+            console.log(data.image);
+            console.log(data.message);
+            display_fit(data.message);
+            selectedImage.src = 'data:image/jpeg;base64,' + data.image;
           })
 
     reader.onload = (event) => {
       selectedImage.src = event.target.result;
-      selectedImage.style.display = "block";
     };
     reader.readAsDataURL(file);
   });
@@ -118,34 +122,52 @@ imageSelectButton.addEventListener("click", () => {
 
 const fitDescription = document.getElementById("description");
 let indexDisplay = 0;
-description.innerHTML= ""
+description.innerHTML= "";
+
+const head = document.getElementById("head");
+const headBobRate = 6;
+var headBobAmt = 0.1;
 
 function display_fit(x) {
     if (indexDisplay == 0) {
         description.innerHTML = ""
     }
-    if (x[indexDisplay] == "\n") {
-        description.innerHTML += '&#13';
+    if (indexDisplay % headBobRate == 0) {
+        headBobAmt *= -1
+        head.style.transform = 'rotate(' + headBobAmt + 'rad)';
+    }
+    if (x[indexDisplay] == "X") {
+        description.innerHTML += '\n';
     } else {
         description.innerHTML += x[indexDisplay];
     }
     indexDisplay++;
     if (indexDisplay < x.length) {
-        setTimeout(display_fit, 150, x);
+        setTimeout(display_fit, 10, x);
     } else {
         indexDisplay = 0;
+        animateBowtie()
+        head.style.transform = 'rotate(0rad)';
     }
 }
 
-const submit = document.getElementById("submitButton");
-const msgLabel = document.getElementById("message");
-const emailLabel = document.getElementById("email");
-const nameLabel = document.getElementById("name");
-const phoneLabel = document.getElementById("phone");
+const bowtie = document.getElementById("bowtie");
+const bowtieLimits = 0.2
+let bowtieRotSpeed = 0.02;
+let rot = 0;
 
-function clearText() {
-    console.log('here');
-    phoneLabel.value = "";
+function animateBowtie() {
+    if (indexDisplay != 0) {
+        rot = 0;
+        bowtie.style.transform = 'rotate(' + rot + 'rad)';
+    } else {
+        rot += bowtieRotSpeed
+        if (rot > bowtieLimits || rot < -bowtieLimits) {
+            bowtieRotSpeed *= -1;
+        }
+        bowtie.style.transform = 'rotate(' + rot + 'rad)';
+        requestAnimationFrame(animateBowtie);
+    }
 }
 
-submit.addEventListener("click", clearText)
+animateBowtie()

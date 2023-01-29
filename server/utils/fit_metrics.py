@@ -1,4 +1,4 @@
-import cv2
+from cv2 import imshow, waitKey, rectangle, putText, getTextSize, FONT_HERSHEY_SIMPLEX, LINE_AA, Canny
 import os
 import copy
 import numpy as np
@@ -27,18 +27,18 @@ def visualize_bbox(img, bbox, class_name, color=BOX_COLOR, thickness=2):
     y_min = y_center - h/2
     x_min, x_max, y_min, y_max = int(x_min), int(x_min + w), int(y_min), int(y_min + h)
    
-    cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
+    rectangle(img, (x_min, y_min), (x_max, y_max), color=color, thickness=thickness)
     
-    ((text_width, text_height), _) = cv2.getTextSize(class_name, cv2.FONT_HERSHEY_SIMPLEX, 0.35, 1)    
-    cv2.rectangle(img, (x_min, y_min - int(1.3 * text_height)), (x_min + text_width, y_min), BOX_COLOR, -1)
-    cv2.putText(
+    ((text_width, text_height), _) = getTextSize(class_name, FONT_HERSHEY_SIMPLEX, 0.35, 1)    
+    rectangle(img, (x_min, y_min - int(1.3 * text_height)), (x_min + text_width, y_min), BOX_COLOR, -1)
+    putText(
         img,
         text=class_name,
         org=(x_min, y_min - int(0.3 * text_height)),
-        fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+        fontFace=FONT_HERSHEY_SIMPLEX,
         fontScale=0.35, 
         color=TEXT_COLOR, 
-        lineType=cv2.LINE_AA,
+        lineType=LINE_AA,
     )
     return img
 
@@ -69,16 +69,16 @@ def get_colors(img):
     return colors
 
 def get_complexity(img):
-    edges = cv2.Canny(img,50,150,apertureSize = 3)
-    cv2.imshow("cropped", edges)
-    cv2.waitKey(0)
+    edges = Canny(img,50,150,apertureSize = 3)
+    #imshow("cropped", edges)
+    #waitKey(0)
     w, h = edges.shape
     return 7*np.sum(edges)/(w*h*255)
 
 #return True if basically the same color
 #otherwise return False
 #assuming color in BGR
-def colorCompare(c1, c2, tolerance=20):
+def areTheSame(c1, c2, tolerance=20):
     color1_rgb = sRGBColor(c1[2], c1[1], c1[0])
     color2_rgb = sRGBColor(c2[2], c2[1], c2[0])
     color1_lab = convert_color(color1_rgb, LabColor)
@@ -97,12 +97,25 @@ def complement(b, g, r):
     k = hilo(b, g, r)
     return tuple(k - u for u in (b, g, r))
 
-#return True if colors go together
+#return True if colors go together (will say that colors that don't go together are any two of RGB)
 #otherwise return False
 def areCompatible(c1, c2):
-    return not colorCompare(complement(c1[0], c1[1], c1[2]), c2, 40)
+    if areTheSame((255, 0, 0), c1, 40):
+        if areTheSame((255, 0, 0), c2, 40): return True
+        elif areTheSame((0, 255, 0), c2, 40): return False
+        elif areTheSame((0, 0, 255), c2, 40): return False
+    elif areTheSame((0, 255, 0), c1, 40):
+        if areTheSame((255, 0, 0), c2, 40): return False
+        elif areTheSame((0, 255, 0), c2, 40): return True
+        elif areTheSame((0, 0, 255), c2, 40): return False
+    elif areTheSame((0, 0, 255), c1, 40):
+        if areTheSame((255, 0, 0), c2, 40): return False
+        elif areTheSame((0, 255, 0), c2, 40): return False
+        elif areTheSame((0, 0, 255), c2, 40): return True
+    return True
 
-def bgr_to_hsv(b, g, r):
+def bgr_to_hsv(c):
+    b, g, r = c
     r, g, b = r/255.0, g/255.0, b/255.0
     mx = max(r, g, b)
     mn = min(r, g, b)
@@ -142,7 +155,8 @@ def getAesthetic(colors, tolerance=0.5):
     for c in colors:
         if isVibrant(c): aesthetics[0] += 1
         elif isGloomy(c): aesthetics[1] += 1
-    aesthetics *= 1/len(colors)
+    aesthetics[0] *= 1/len(colors)
+    aesthetics[1] *= 1/len(colors)
     if aesthetics[0] > tolerance: return "vibrant"
     elif aesthetics[1] > tolerance: return "gloomy"
     else: return "neutral"
@@ -154,27 +168,21 @@ def getWeather(city_name):
     if x["cod"] != "404": #city is found
         y = x["main"]
         current_temperature = y["temp"] #in kelvin
-        current_pressure = y["pressure"] #in hPa
-        current_humidity = y["humidity"] #in percentage
         z = x["weather"]
         weather_description = z[0]["description"]
         return current_temperature-273.15, weather_description
     else:
         print(" City Not Found ")
-        return None
+        return 15, "boring"
 
-weatherIncompatibility = {
-    "hot":["Long Sleeve Shirt", "Long Sleeve Outwear", "Pants", "Long Sleeve Dress"],
-    "warm":["Long Sleeve Outwear", "Long Sleeve Dress"],
-    "cold":["Short Sleeve Shirt", "Sling", "Shorts", "Skirt", "Short Sleeved Dress", "Vest Dress", "Sling Dress"],
-    "supercold":["Short Sleeve Shirt", "Short Sleeve Outwear", "Vest", "Sling", "Shorts", "Skirt", "Short Sleeved Dress", "Vest Dress", "Sling Dress"]
-}
 
-# Color check: color compatibility
-# Weather check:
-# Overall synergy:
-# 1 color = too simple
+# describe what we see
+# complexity of clothing (average complexity rating should be about 0.5)
 # 0 stong colors = too simple
 # >3 "strong" colors = too many
-# complexity of clothing (average complexity rating should be about 0.5)
+# Color check: color compatibility
+# Weather check
+
+
+
 # aesthetic (gloomy, bland, bright)

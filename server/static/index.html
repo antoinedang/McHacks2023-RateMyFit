@@ -30,7 +30,7 @@
         <nav class="navbar navbar-expand-lg bg-info text-uppercase fixed-top" id="mainNav">
             <div class="container">
                 <a class="navbar-brand child" href="#page-top">RATE MY FIT</a>
-                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-black rounded child" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-light rounded child" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     
                     <i class="fas fa-bars"></i>
                 </button>
@@ -52,25 +52,31 @@
                 <h1 class="masthead-heading text-secondary mb-0 clear_bg" id="greeting">Bringing intelligent analytics to your wardrobe.</h1>
 
                 <!-- Masthead Subheading-->
-                <p class="masthead-subheading text-secondary mb-0 clear_bg" id = "greeting1">Rate My Fit</p>
+                <p class="masthead-subheading text-secondary mb-0 clear_bg text-uppercase" id = "greeting1">Rate My Fit</p>
             </div>
         </header>
         <section class="page-section portfolio" id="portfolio">
             <div class="container">
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Let's get started...</h2>
                 
-                <div class="center child">
-                    <button id="image-select-button">Select Image</button>
-                    <img id="selected-image" style="display:none; max-width:100%;"></img>
+                <div class="center align-items-center">
+                    <button id="image-select-button" style="position: relative; left:-20%; " class="child">Select Image</button>
+                    <p class="masthead-subheading text-secondary mb-0 text-uppercase" id = "greeting1" style="position: relative; left:20%; top: -120px;">city:</p>
+                    <input id="cityInput" class="child" value="Montreal" style="position: relative; left:20%; top: -120px;"></button>
+                    <img id="selected-image" style="margin: auto; display:block; max-width:100%; left:400px;"></img>
                   </div>
 
         </section>
 
-        <header class="masthead bg-secondary text-success text-center">
-            <img class="img-fluid" src="assets/img/portfolio/roboc-removebg-preview.png" style="position: relative; left:40%; scale: 70%; top: -250px;" />
-            <div class="container d-flex align-items-center flex-column">
+        <header class="masthead bg-secondary text-success text-center" style="height:auto;">
+            <div style="position: relative; left:40%; scale: 50%; top: -250px;">
+                <div style="position: relative; transform-origin: center;" id="head"><img class="img-fluid" src="assets/img/portfolio/roboc-removebg-preview.png"/></div>
+                <div style="position: relative; top: -100px; scale: 130%; transform-origin: center;" id="bowtie"><img class="img-fluid" src="assets/img/portfolio/bowtie.png"  /></div>
+                
+            </div>
+            <div class="container d-flex align-items-center flex-column" style="height:auto;">
                 <!-- Icon Divider-->
-                <p class="masthead-subheading font-weight-light mb-0" id = "description"></p>
+                <p class="masthead-subheading font-weight-light mb-0" id = "description" style="position: relative; top: -450px; padding-right: 100px;"></p>
             </div>
         </header>
 
@@ -110,7 +116,7 @@
                         <p class="lead mb-0">
                             McHacks 2023
                             <br />
-                            McGill, Montreal
+                            McGill University, Montreal
                         </p>
                     </div>
                     <!-- Footer Social Icons-->
