@@ -1,8 +1,11 @@
 from utils import fit_metrics
 from ultralytics import YOLO
+import cv2
+import fit_metrics
+import os
 
 def rate_my_fit(filepath):
-    img = cv.imread(filepath)
+    img = cv2.imread(filepath)
     pred = model(img)
     for results in pred:
         box = results.boxes
@@ -10,7 +13,8 @@ def rate_my_fit(filepath):
         print("\nprediction:" + str(list(box.xywh)))
         print("\nprediction:" + str(list(box.conf)))
         print("\nprediction:" + str(list(box.cls)))
-        
+    #delete filepath
+    os.remove(filepath)
     text = "Rating your fit..."
     return img, text
 
