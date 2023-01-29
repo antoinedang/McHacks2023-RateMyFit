@@ -1,7 +1,7 @@
 from utils import fit_metrics
 from ultralytics import YOLO
 import cv2
-import fit_metrics
+import utils.fit_metrics
 import os
 
 def rate_my_fit(filepath):
