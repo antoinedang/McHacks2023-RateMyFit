@@ -125,7 +125,7 @@ let indexDisplay = 0;
 description.innerHTML= "";
 
 const head = document.getElementById("head");
-const headBobRate = 6;
+const headBobRate = 4;
 var headBobAmt = 0.1;
 
 function display_fit(x) {

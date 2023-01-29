@@ -86,7 +86,7 @@ def generateRating(img, outfit, city):
         for _, c2 in main_colors:
             if not utils.areCompatible(c1, c2): 
                 errors.append((convert_bgr_to_name(c1), convert_bgr_to_name(c2)))
-    out += "When it comes to color theory, you made " + str(len(errors)) + " mistakes today. "
+    out += "When it comes to color theory, you made " + str(len(errors)) + " mistakes. "
     if len(errors) > 0:
         out += "Those were the following color pairs: " + str(errors) + "... Maybe take some notes for next time.X"
     else:

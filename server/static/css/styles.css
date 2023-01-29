@@ -46,6 +46,7 @@ body{
   --bs-dark: #212529;
   --bs-primary-rgb: 255, 255, 255;
   --bs-secondary-rgb:  0, 0, 0;
+  --bs-green-rgb:  0, 255, 0;
   --bs-success-rgb: 124,252,0;
   --bs-info-rgb: 0, 0, 0;
   --bs-warning-rgb: 255, 193, 7;
@@ -7749,6 +7750,12 @@ textarea.form-control-lg {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-success-rgb), var(--bs-text-opacity)) !important;
 }
+
+.text-green {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-green-rgb), var(--bs-text-opacity)) !important;
+}
+
 
 .text-info {
   --bs-text-opacity: 1;
