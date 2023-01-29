@@ -143,7 +143,7 @@ function display_fit(x) {
     }
     indexDisplay++;
     if (indexDisplay < x.length) {
-        setTimeout(display_fit, 10, x);
+        setTimeout(display_fit, 5, x);
     } else {
         indexDisplay = 0;
         animateBowtie()

@@ -125,14 +125,22 @@ def rate_my_fit(filepath, city):
                 outfit.append((class_name, bbox))
     else:
         outfit = [
-            ("hat", [0.1, 0.1, 0.1, 0.1]),
-            ("short-sleeve shirt", [0.9, 0.5, 0.1, 0.1]),
-            ("pair of shorts", [0.1, 0.5, 0.1, 0.1]),
-            ("shoe", [0.9, 0.1, 0.1, 0.1]),
-            ("shoe", [0.9, 0.9, 0.1, 0.1])
+            ("hat", [0.4640625, 0.0625, 0.13203125, 0.11171875]),
+            ("short-sleeve shirt", [0.45, 0.31875, 0.2921875, 0.29453125]),
+            ("pair of pants", [0.4671875, 0.67109375, 0.225, 0.45546875]),
+            ("shoe", [0.5421875, 0.93203125, 0.0671875, 0.07421875]),
+            ("shoe", [0.4109375, 0.93359375, 0.13125, 0.0984375])
+        ]
+        
+        outfit2 = [
+            ("hat", [0.4875, 0.146875, 0.1421875, 0.08671875]),
+            ("short-sleeve shirt", [0.434375, 0.36484375, 0.41640625, 0.22890625]),
+            ("pair of pants", [0.4296875, 0.6328125, 0.365625, 0.2921875]),
+            ("shoe", [0.2171875, 0.87578125, 0.10546875, 0.12890625]),
+            ("shoe", [0.51953125, 0.8390625, 0.09609375, 0.0953125])
         ]
 
-    text = generateRating(img, outfit, city)
+    text = generateRating(img, outfit2, city)
     for class_name, bbox in outfit:
         img = utils.visualize_bbox(img, bbox, class_name)
     #delete filepath
