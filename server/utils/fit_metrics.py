@@ -135,18 +135,18 @@ def bgr_to_hsv(c):
     v = mx*100
     return h, s, v
 
-def isGloomy(color, tolerance=65):
+def isGloomy(color, tolerance=40):
     h,s,v = bgr_to_hsv(color)
     return (v < tolerance)
 
-def isNeutral(color, tolerance=75):
+def isNeutral(color, tolerance=60):
     h,s,v = bgr_to_hsv(color)
     return (s < tolerance)
 
 def isVibrant(color):
     return isBright(color) and (not isNeutral(color))
 
-def isBright(color, tolerance=80):
+def isBright(color, tolerance=60):
     h,s,v = bgr_to_hsv(color)
     return (v >= tolerance)
 

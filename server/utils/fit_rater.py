@@ -5,7 +5,6 @@ import json
 import utils.fit_metrics as metrics
 import os
 import numpy as np
-from torch import tensor
 from scipy.spatial import KDTree
 from webcolors import hex_to_rgb
 from webcolors import CSS3_HEX_TO_NAMES
