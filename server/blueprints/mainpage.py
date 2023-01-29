@@ -28,8 +28,6 @@ class FitAPI(MethodView):
 
 fit_view = FitAPI.as_view('fit')
 fit_api.add_url_rule('/fit', view_func=fit_view, methods=['GET','POST'])
-
-
 #fix UI
 #make string from outfit detection
 #do fake detection on outfits

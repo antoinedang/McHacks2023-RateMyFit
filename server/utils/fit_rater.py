@@ -2,7 +2,7 @@ from utils import fit_metrics
 from ultralytics import YOLO
 from cv2 import imread
 import json
-import utils.fit_metrics as utils
+import utils.fit_metrics as metrics
 import os
 import numpy as np
 from torch import tensor
@@ -28,9 +28,7 @@ def generateRating(img, outfit, city):
     """
     Returns a string describing the rating of a particular outfit
     """
-    print("1")
-    temp, weather_description = utils.getWeather(city)
-    print("2")
+    temp, weather_description = metrics.getWeather(city)
     supercold=False
     cold=False
     warm=False
@@ -45,17 +43,17 @@ def generateRating(img, outfit, city):
     aesthetics = {"neutral":0, "gloomy":0, "vibrant":0}
     incompatibilities = []
     for category, bbox in outfit:
-        cropped_article = utils.cropToBbox(img, bbox)
-        complexities.append(utils.get_complexity(cropped_article))
-        colors = utils.get_colors(cropped_article)
+        cropped_article = metrics.cropToBbox(img, bbox)
+        complexities.append(metrics.get_complexity(cropped_article))
+        colors = metrics.get_colors(cropped_article)
         main_colors.append((category, colors[0]))
         for c in colors:
-            if not utils.isNeutral(c):
+            if not metrics.isNeutral(c):
                 add = True
                 for strongC in strong_colors:
-                    if utils.areTheSame(strongC, c): add = False
+                    if metrics.areTheSame(strongC, c): add = False
                 if add: strong_colors.append(c)
-        aesthetics[utils.getAesthetic(colors)] += 1
+        aesthetics[metrics.getAesthetic(colors)] += 1
         if supercold and category in weatherIncompatibility["supercold"]: incompatibilities.append(category)
         elif cold and category in weatherIncompatibility["cold"]: incompatibilities.append(category)
         elif warm and category in weatherIncompatibility["warm"]: incompatibilities.append(category)
@@ -84,7 +82,7 @@ def generateRating(img, outfit, city):
     errors = []
     for _, c1 in main_colors:
         for _, c2 in main_colors:
-            if not utils.areCompatible(c1, c2): 
+            if not metrics.areCompatible(c1, c2): 
                 errors.append((convert_bgr_to_name(c1), convert_bgr_to_name(c2)))
     out += "When it comes to color theory, you made " + str(len(errors)) + " mistakes. "
     if len(errors) > 0:
@@ -118,11 +116,17 @@ def rate_my_fit(filepath, city):
         pred = model(img)
         outfit = []
         for results in pred:
-            box = results.boxes
-            bbox = box.xywh.numpy()
-            class_name = names[int(box.cls[0])]
-            if float(list(box.cls)[0]) > 0.65:
-                outfit.append((class_name, bbox))
+            box = results.boxes.numpy()
+            for b in box:
+                bbox = list(b.xywh[0])
+                h, w, channels = img.shape
+                bbox[0] *= 1/w
+                bbox[1] *= 1/h
+                bbox[2] *= 1/w
+                bbox[3] *= 1/h
+                class_name = names[int(list(b.cls)[0])]
+                if float(list(b.conf)[0]) > 0.65:
+                    outfit.append((class_name, bbox))
     else:
         outfit = [
             ("hat", [0.4640625, 0.0625, 0.13203125, 0.11171875]),
@@ -131,18 +135,10 @@ def rate_my_fit(filepath, city):
             ("shoe", [0.5421875, 0.93203125, 0.0671875, 0.07421875]),
             ("shoe", [0.4109375, 0.93359375, 0.13125, 0.0984375])
         ]
-        
-        outfit2 = [
-            ("hat", [0.4875, 0.146875, 0.1421875, 0.08671875]),
-            ("short-sleeve shirt", [0.434375, 0.36484375, 0.41640625, 0.22890625]),
-            ("pair of pants", [0.4296875, 0.6328125, 0.365625, 0.2921875]),
-            ("shoe", [0.2171875, 0.87578125, 0.10546875, 0.12890625]),
-            ("shoe", [0.51953125, 0.8390625, 0.09609375, 0.0953125])
-        ]
 
-    text = generateRating(img, outfit2, city)
+    text = generateRating(img, outfit, city)
     for class_name, bbox in outfit:
-        img = utils.visualize_bbox(img, bbox, class_name)
+        img = metrics.visualize_bbox(img, bbox, class_name)
     #delete filepath
     os.remove(filepath)
     return img, text
@@ -154,7 +150,8 @@ weatherIncompatibility = {
     "supercold":["short-sleeve shirt", "short-sleeveoutwear", "pair of shorts", "skirt"]
 }
 
+pwd = os.path.realpath(os.path.dirname(__file__))
 names = ["short-sleeve shirt", "long-sleeve shirt", "short-sleeveoutwear", "long-sleeveoutwear", "pair of shorts", "pair of pants", "skirt", "hat", "shoe"]
 # Load a model
-#model = YOLO("runs/detect/train2/weights/best.pt")  # load a model
-have_a_model = False
+model = YOLO(pwd + "/best.pt")  # load a model
+have_a_model = True
