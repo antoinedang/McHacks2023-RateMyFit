@@ -77,7 +77,8 @@ def generateRating(img, outfit, city):
     out += "In terms of your color palette, "
     if len(strong_colors) > 3: out += "I noticed that you've opted for not one, not two, but " + str(len(strong_colors)) + " bold colors for your fit. While I commend your creativity, you should consider throwing in some muted tones as well...X"
     elif len(strong_colors) == 0: out += "I couldn't help but notice you've only chosen neutral colors today. A splash of color would do you wonders!X"
-    
+    else: " you've got a good balance of bold colors in your fit.X"
+
     errors = []
     for _, c1 in main_colors:
         for _, c2 in main_colors:
