@@ -94,13 +94,14 @@ imageSelectButton.addEventListener("click", () => {
         method: 'POST',
         body: formData 
     };
-    fetch( 'http://10.122.92.59:5002/fit', options )
-        .then( response => {console.log(response)} )
+    fetch( 'http://10.122.151.201:5002/fit', options )
+        .then( function(response) { return response.json()} )
         .catch(error => {console.error(error)})
-        .then( response => {
-            // Do something with response.
-        } );
-
+        .then( function(data) {
+            var result = data.message;
+            console.log(data.message);
+            display_fit(result)
+          })
 
     reader.onload = (event) => {
       selectedImage.src = event.target.result;
@@ -112,3 +113,15 @@ imageSelectButton.addEventListener("click", () => {
   input.click();
 });
 
+
+const fitDescription = document.getElementById("description");
+let indexDisplay = 0;
+description.innerHTML= ""
+
+function display_fit(x) {
+    description.innerHTML += x[indexDisplay];
+    indexDisplay++;
+    if (indexDisplay < x.length) {
+    setTimeout(display_fit, 150, x);
+    }
+}
