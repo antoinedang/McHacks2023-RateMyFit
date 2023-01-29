@@ -1,5 +1,9 @@
-@charset "UTF-8";
 
+
+@charset "UTF-8";
+body{
+  background: cornflowerblue;
+}
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -53,6 +57,9 @@
   --bs-body-color: #212529;
   --bs-body-bg: #fff;
 }
+
+
+
 
 *,
 *::before,

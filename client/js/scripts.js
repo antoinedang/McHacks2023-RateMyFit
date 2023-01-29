@@ -16,6 +16,8 @@ function type() {
 }
 type();
 
+
+
 const title1 = document.getElementById("greeting1");
 const text1 = title1.innerHTML;
 title1.innerHTML = ""
