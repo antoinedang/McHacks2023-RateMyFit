@@ -1,13 +1,22 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from flask.views import MethodView
-
+import json
+import os
+import utils.fit_rater
 
 fit_api = Blueprint('fit_api', __name__)
 
 class FitAPI(MethodView):
 
     def get(self):
-        return 'Hello, World'
+        return 'Testing Get'
+    
+    def post(self):
+        image = request.files['image']
+        current_directory = os.getcwd()
+        image.save(os.path.join(current_directory,current_app.config['UPLOAD_FOLDER'], image.filename))
+        img, msg = fit_rater.rate_my_fit(os.path.join(current_directory,current_app.config['UPLOAD_FOLDER'], image.filename))
+        return json.dumps({"message" : msg})
 
 
 fit_view = FitAPI.as_view('fit')

@@ -1,0 +1,5 @@
+train: /content/data/train/images
+test: /content/data/test/images
+val: /content/data/val/images
+nc: 15
+names: ["Short Sleeve Shirt", "Long Sleeve Shirt", "Short Sleeve Outwear", "Long Sleeve Outwear", "Vest", "Sling", "Shorts", "Pants", "Skirt", "Short Sleeved Dress", "Long Sleeve Dress", "Vest Dress", "Sling Dress", "Hat", "Shoe"]

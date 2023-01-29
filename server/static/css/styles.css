@@ -36,8 +36,8 @@ body{
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
   --bs-primary-rgb: 255, 255, 255;
-  --bs-secondary-rgb:  5, 6, 38;
-  --bs-success-rgb: 25, 135, 84;
+  --bs-secondary-rgb:  0, 0, 0;
+  --bs-success-rgb: 124,252,0;
   --bs-info-rgb: 13, 202, 240;
   --bs-warning-rgb: 255, 193, 7;
   --bs-danger-rgb: 220, 53, 69;
@@ -78,7 +78,7 @@ body{
 }
 
 #image-select-button {
-background-color: #0084ff;
+background-color: #000000;
 color: white;
 padding: 20px 40px;
 border-radius: 10px;
@@ -88,7 +88,7 @@ transition: all 0.2s ease-in-out;
 }
 
 #image-select-button:hover {
-background-color: #0062cc;
+background-color: #1abc9c;
 cursor: pointer;
 transform: scale(1.1);
 }
@@ -11377,19 +11377,19 @@ html {
   font-weight: 700;
 }
 #mainNav .navbar-brand {
-  color: #fff;
+  color: #000;
 }
 #mainNav .navbar-nav {
   margin-top: 1rem;
 }
 #mainNav .navbar-nav li.nav-item a.nav-link {
-  color: #fff;
+  color: #000;
 }
 #mainNav .navbar-nav li.nav-item a.nav-link:hover {
   color: #1abc9c;
 }
 #mainNav .navbar-nav li.nav-item a.nav-link:active, #mainNav .navbar-nav li.nav-item a.nav-link:focus {
-  color: #fff;
+  color: #000;
 }
 #mainNav .navbar-nav li.nav-item a.nav-link.active {
   color: #1abc9c;
