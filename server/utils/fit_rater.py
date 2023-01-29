@@ -20,4 +20,4 @@ def rate_my_fit(filepath):
     return img, text
 
 # Load a model
-model = YOLO("runs/detect/train2/weights/best.pt")  # load a model
+#model = YOLO("runs/detect/train2/weights/best.pt")  # load a model
