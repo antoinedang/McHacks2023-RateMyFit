@@ -6,6 +6,7 @@ import os
 
 def rate_my_fit(filepath):
     img = cv2.imread(filepath)
+    return img, "test \n new line"
     pred = model(img)
     for results in pred:
         box = results.boxes
