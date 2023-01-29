@@ -178,9 +178,9 @@ weatherIncompatibility = {
 # >3 "strong" colors = too many
 # complexity of clothing (average complexity rating should be about 0.5)
 # aesthetic (gloomy, bland, bright)
-
-pwd = os.path.realpath(os.path.dirname(__file__))
-testimg = cv2.imread(pwd + "/test_imgs/multicolor.jpg")
-cv2.imshow("og", testimg)
-cv2.waitKey(0)
-get_colors(testimg)
+if __name__ == '__main__':
+    pwd = os.path.realpath(os.path.dirname(__file__))
+    testimg = cv2.imread(pwd + "/test_imgs/multicolor.jpg")
+    cv2.imshow("og", testimg)
+    cv2.waitKey(0)
+    get_colors(testimg)
