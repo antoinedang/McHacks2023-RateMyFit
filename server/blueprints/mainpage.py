@@ -16,7 +16,7 @@ class FitAPI(MethodView):
         current_directory = os.getcwd()
         image.save(os.path.join(current_directory,current_app.config['UPLOAD_FOLDER'], image.filename))
         img, msg = fit_rater.rate_my_fit(os.path.join(current_directory,current_app.config['UPLOAD_FOLDER'], image.filename))
-        return json.dumps({"message" : msg})
+        return json.dumps({"message" : "test script \ntest script"})
 
 
 fit_view = FitAPI.as_view('fit')

@@ -100,8 +100,8 @@ imageSelectButton.addEventListener("click", () => {
         .then( function(response) { return response.json()} )
         .catch(error => {console.error(error)})
         .then( function(data) {
+            console.log(data);
             var result = data.message;
-            console.log(data.message);
             display_fit(result)
           })
 
@@ -121,10 +121,19 @@ let indexDisplay = 0;
 description.innerHTML= ""
 
 function display_fit(x) {
-    description.innerHTML += x[indexDisplay];
+    if (indexDisplay == 0) {
+        description.innerHTML = ""
+    }
+    if (x[indexDisplay] == "\n") {
+        description.innerHTML += '&#13';
+    } else {
+        description.innerHTML += x[indexDisplay];
+    }
     indexDisplay++;
     if (indexDisplay < x.length) {
-    setTimeout(display_fit, 150, x);
+        setTimeout(display_fit, 150, x);
+    } else {
+        indexDisplay = 0;
     }
 }
 
