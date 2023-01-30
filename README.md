@@ -1,4 +1,5 @@
-![](https://youtu.be/TONwiJ8NBIs)
+
+https://user-images.githubusercontent.com/53016294/215381417-040b2b55-c7e5-4a47-8ac4-13a5eb475974.mp4
 
 # McHacks2023
 Project repository for McGill Hackathon for January 2023. Team of 4: Ben Hepditch, Elie Dimitri-Abdo, Rudi Kischer, Antoine Dangeard
